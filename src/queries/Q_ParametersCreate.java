@@ -1,0 +1,63 @@
+package queries;
+
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Properties;
+
+/**
+ * Creates a default parameters in file JE_Parameters.txt in directory "paramfiles".
+ * 
+ * @author Vladimír Župka 2016
+ *
+ */
+public class Q_ParametersCreate {
+   final static String PROP_COMMENT = "SqlScripts for IBM i, © Vladimír Župka 2015";
+
+   static Path outPath = Paths.get(System.getProperty("user.dir"), "paramfiles", "Q_Parameters.txt");
+   static String encoding = System.getProperty("file.encoding");
+   /**
+    * Main method. Sets parameter properties and writes (stores) them
+    * in file Q_Parameters.txt in directory "paramfiles".
+    * @param strings       not used
+    */
+   public static void main(String... strings) {
+      Properties properties = new Properties();
+      properties.setProperty("AUTO_WINDOW_SIZE", "Y");
+      properties.setProperty("CARET", "Short caret");
+      properties.setProperty("COLUMN_SEPARATING_SPACES", "1");
+      properties.setProperty("DECIMAL_PATTERN", "#0.00");
+      properties.setProperty("EDITOR_FONT", "Monospaced");
+      properties.setProperty("EDITOR_FONT_SIZE", "12");
+      properties.setProperty("FONT_SIZE", "9");
+      properties.setProperty("HIGHLIGHT", "SQL");
+      properties.setProperty("HIGHLIGHT_BLOCKS", "*NONE");
+      properties.setProperty("HOST", "192.168.1.10");
+      properties.setProperty("LANGUAGE", "en-US");
+      properties.setProperty("LIBRARY_PATTERN", "VZ*");
+      properties.setProperty("LIBRARY_LIST", ", CORPDATA, KOLEKCE, VZTOOL, QGPL, QTEMP");
+      properties.setProperty("MATCH_CASE", "CASE_INSENSITIVE");
+      properties.setProperty("NULL_PRINT_MARK", "-");
+//      properties.setProperty("IFS_DIRECTORY", "/home/vzupka/");
+      properties.setProperty("RESULT_WINDOW_HEIGHT", "450");
+      properties.setProperty("RESULT_WINDOW_WIDTH", "450");
+      properties.setProperty("SELECTION_MODE", "Horizontal selection");
+      properties.setProperty("USER_NAME", "VZUPKA");
+
+      try {
+         // If the Parameters.txt file does not exist, create one
+         if (!Files.exists(outPath)) {
+            Files.createFile(outPath);
+         }
+         // Create a new text file in directory "paramfiles"
+         BufferedWriter outfile = Files.newBufferedWriter(outPath, Charset.forName(encoding));
+         properties.store(outfile, PROP_COMMENT);
+
+      } catch (IOException ioe) {
+         ioe.printStackTrace();
+      }
+   }
+}
