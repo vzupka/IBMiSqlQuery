@@ -1,0 +1,3 @@
+Manifest-Version: 1.0
+Class-Path: ./jt400-21.0.4.jar
+Main-Class: queries.Q_MainWindow
